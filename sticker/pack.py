@@ -70,20 +70,20 @@ async def upload_sticker(file: str, directory: str, old_stickers: Dict[str, matr
 
     sticker_id = f"sha256:{sha256(image_data).hexdigest()}"
     print(".", end="", flush=True)
-    if sticker_id in old_stickers:
-        sticker = {
-            **old_stickers[sticker_id],
-            "body": name,
-        }
-        print(f".. using existing upload")
-    else:
-        width, height = util.convert_image(image_data)
-        print(".", end="", flush=True)
-        mxc = await matrix.upload(image_data, mime, file)
-        print(".", end="", flush=True)
-        sticker = util.make_sticker(mxc, width, height, len(image_data), mime, name)
-        sticker["id"] = sticker_id
-        print(" uploaded", flush=True)
+    # if sticker_id in old_stickers:
+    #     sticker = {
+    #         **old_stickers[sticker_id],
+    #         "body": name,
+    #     }
+    #     print(f".. using existing upload")
+    # else:
+    width, height = util.convert_image(image_data)
+    print(".", end="", flush=True)
+    mxc = await matrix.upload(image_data, mime, file)
+    print(".", end="", flush=True)
+    sticker = util.make_sticker(mxc, width, height, len(image_data), mime, name)
+    sticker["id"] = sticker_id
+    print(" uploaded", flush=True)
     return sticker
 
 
